@@ -1,0 +1,29 @@
+{
+  "name": "evaluacion-1",
+  "version": "1.0.0",
+  "description": "Actividad evaluada 1 de Programación web, ciclo 02 2026.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Racheloviedo/Evaluacion-1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Racheloviedo/Evaluacion-1/issues"
+  },
+  "homepage": "https://github.com/Racheloviedo/Evaluacion-1#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
