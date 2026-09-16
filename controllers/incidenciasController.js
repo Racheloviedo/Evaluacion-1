@@ -6,7 +6,7 @@ const incidencias = [];
 //Variable autoincremental para controlar los IDs
 let siguienteId = 1;
 
-//2. Metodo registrar incidencia
+//Metodo registrar incidencia
 const registrarIncidencia = (req, res) => {
     const { empleado, area, descripcion, prioridad} = req.body;
 
@@ -44,3 +44,17 @@ const registrarIncidencia = (req, res) => {
     incidencias.push(nuevaIncidencia);
     res.status(201).json({mensaje: 'Incidencia registrada correctamente'}); // 201 --> el recurso se creo y fue exitoso
 };
+
+//Listar incidencias
+const listarIncidencias = (req, res) => {
+    return res.status(200).json(incidencias); //devuelve el arreglo con todos los registros almacenados
+};
+
+
+
+
+
+
+
+
+
