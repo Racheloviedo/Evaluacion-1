@@ -6,6 +6,7 @@ const { registrarIncidencia } = require('../controllers/incidenciasController');
 const { listarIncidencias } = require('../controllers/incidenciasController');
 //Importando buscarPorId
 const { buscarPorId } = require('../controllers/incidenciasController');
+const { cambiarEstado } = require('../controllers/incidenciasController');
 
 //Ruta POST para registrar incidencia
 router.post('/', registrarIncidencia);
@@ -13,6 +14,8 @@ router.post('/', registrarIncidencia);
 router.get('/', listarIncidencias);
 //Ruta GET para buscar una incidencia
 router.get('/:id', buscarPorId);
+//Ruta PUT para cambiar el estado
+router.put('/:id/estado', cambiarEstado);
 
 module.exports = router;
 

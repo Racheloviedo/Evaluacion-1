@@ -62,6 +62,36 @@ const buscarPorId = (req, res) => {
     }
 };
 
+//Cambiar el estado de incidencia
+const cambiarEstado = (req, res) => {
+    const id = Number(req.params.id);
+    const { estado } = req.body;
+
+    if (estaVacio(estado)) {
+        return res.status(400).json({ mensaje: "El campo 'estado' es obligatorio" });
+    }
+
+    const incidencia = incidencias.find(inc => inc.id === id);
+
+    if(!incidencia){
+        return res.status(400).json({ mensaje: "Incidencia no encontrada" });
+    }
+
+    const estadoLimpio = limpiarTexto(estado);
+    
+    //Swirch para elegir estado de la incidencia
+    switch (estadoLimpio) {
+        case "Pendiente":
+        case "En proceso":
+        case "Resuelta":
+        case "Cancelada":
+            incidencia.estado = estadoLimpio;
+            return res.status(200).json({ mensaje: "Estado actualizado correctamente", incidencia });
+        default:
+            return res.status(400).json({ mensaje: "Estado no valido. Los estados permitidos son: 'Pendiente', 'En Proceso', 'Resuelta' o 'Cancelada' " });
+    }
+};
+
 
 
 
