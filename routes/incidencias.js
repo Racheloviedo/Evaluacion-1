@@ -7,19 +7,16 @@ const { buscarPorId } = require('../controllers/incidenciasController');
 const { cambiarEstado } = require('../controllers/incidenciasController');
 const { eliminarIncidencia } = require('../controllers/incidenciasController'); 
 const { obtenerEstadisticas } = require('../controllers/incidenciasController');
+const { obtenerClasificacion } = require('../controllers/incidenciasController');
 
-//Ruta POST para registrar incidencia
-router.post('/', registrarIncidencia);
-//Ruta GET para listar incidencias
+//Definicion de endpoints
+router.post('/', registrarIncidencia); //Ruta POST para registrar incidencia
 router.get('/', listarIncidencias);
-//Ruta GET para buscar una incidencia
 router.get('/:id', buscarPorId);
-//Ruta PUT para cambiar el estado
 router.put('/:id/estado', cambiarEstado);
-//Ruta DELETE para eliminar incidencia
 router.delete('/:id', eliminarIncidencia);
-//Ruta GER para estadisticas
 router.get('/estadisticas', obtenerEstadisticas);
+router.delete('/:id', eliminarIncidencia);
 
 module.exports = router;
 

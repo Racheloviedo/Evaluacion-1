@@ -15,7 +15,7 @@ const registrarIncidencia = (req, res) => {
         return res.status(400).json({ error: 'Todos los campos son obligatorios y no se permiten cadenas vacias'});
     }
 
-    //Limpieza de datos
+    //Limpieza de espacios en blanco
     const empleadoLimpio = limpiarTexto(empleado);
     const areaLimpia = limpiarTexto(area);
     const descripcionLimpia = limpiarTexto(descripcion);
@@ -42,7 +42,7 @@ const registrarIncidencia = (req, res) => {
   };
     // usamos push para insertar en el arreglo
     incidencias.push(nuevaIncidencia);
-    res.status(201).json({mensaje: 'Incidencia registrada correctamente'}); // 201 --> el recurso se creo y fue exitoso
+    res.status(201).json({mensaje: "Incidencia registrada correctamente" }); // 201 --> el recurso se creo y fue exitoso
 };
 
 //Listar incidencias
@@ -55,10 +55,11 @@ const buscarPorId = (req, res) => {
     const id = Number(req.params.id); //Debemos convertir de string a un numero
 
     const incidencia = incidencias.find(inc => inc.id === id); //recorre el arreglo para encontrar coincidencia con el id
+    
     if(incidencia){
         return res.status(200).json(incidencia);
     } else {
-        return res.status(400).json({ mensaje:"Incidencia no encontrada"});
+        return res.status(400).json({ mensaje:"Incidencia no encontrada" });
     }
 };
 
@@ -74,7 +75,7 @@ const cambiarEstado = (req, res) => {
     const incidencia = incidencias.find(inc => inc.id === id);
 
     if(!incidencia){
-        return res.status(400).json({ mensaje: "Incidencia no encontrada" });
+        return res.status(404).json({ mensaje: "Incidencia no encontrada" });
     }
 
     const estadoLimpio = limpiarTexto(estado);
@@ -88,7 +89,7 @@ const cambiarEstado = (req, res) => {
             incidencia.estado = estadoLimpio;
             return res.status(200).json({ mensaje: "Estado actualizado correctamente", incidencia });
         default:
-            return res.status(400).json({ mensaje: "Estado no valido. Los estados permitidos son: 'Pendiente', 'En Proceso', 'Resuelta' o 'Cancelada' " });
+            return res.status(400).json({ mensaje: "Estado no valido. Los estados permitidos son: 'Pendiente', 'En Proceso', 'Resuelta' o 'Cancelada'" });
     }
 };
 
@@ -99,7 +100,7 @@ const eliminarIncidencia = (req, res) => {
     const index = incidencias.findIndex(inc => inc.id === id);
 
     if (index === -1) {
-        return res.status(404).json({ mensaje: "Incidencia no encontrada"});
+        return res.status(404).json({ mensaje: "Incidencia no encontrada" });
     }
 
     //splice() -> usado para agregar nuevos items al array
@@ -136,6 +137,50 @@ const obtenerEstadisticas = (req, res) => {
     });
 
     return res.status(200).json(estadisticas);
+};
+
+//Clasificacion automatica 
+const obtenerClasificacion = (req, res) => {
+    const id = Number(req.params.id);
+    const incidencia = incidencias.find(inc => inc.id === id);
+
+    if (!incidencia){
+        return res.status(404).json({ mensaje: "Incidencia no encontrada" });
+    }
+
+    let clasificacion = "";
+
+    //Switch de clasificacion automatica
+    switch (incidencia.prioridad){
+        case "Alta":
+            clasificacion = "Critica";
+            break;
+        case "Media":
+            clasificacion = "Importante";
+            break;
+        case "Baja":
+            clasificacion = "Normal";
+            break;
+        default:
+            clasificacion = "Desconocida";
+            break;
+    }
+
+    return res.status(200).json({
+        id: incidencia.id,
+        clasificacion: clasificacion
+    });
+};
+
+//Exportar funciones controladoras
+module.exports = {
+    registrarIncidencia,
+    listarIncidencias,
+    buscarPorId,
+    cambiarEstado,
+    eliminarIncidencia,
+    obtenerEstadisticas,
+    obtenerClasificacion
 };
 
 
