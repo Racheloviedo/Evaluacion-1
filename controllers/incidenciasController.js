@@ -107,6 +107,36 @@ const eliminarIncidencia = (req, res) => {
     return res.status(200).json({ mensaje: "Incidencia eliminada correctamente" });
 };
 
+//Endpoint de estadisticas
+const obtenerEstadisticas = (req, res) => {
+    const estadisticas = {
+        totalIncidencias: incidencias.length, //length() -> cantidad de elementos en el array
+        pendientes: 0,
+        enProceso: 0,
+        resueltas: 0,
+        canceladas: 0
+    };
+
+    //Recorrido dinamico que evite variables manuales por resultado
+    incidencias.forEach(inc => {
+        switch(inc.estado){
+            case "Pendiente":
+                estadisticas.pendientes++;
+                break;
+            case "En proceso":
+                estadisticas.enProceso++;
+                break;
+            case "Resuelta":
+                estadisticas.resueltas++;
+                break;
+            case "Cancelada":
+                estadisticas.canceladas++;
+                break;
+        }
+    });
+
+    return res.status(200).json(estadisticas);
+};
 
 
 
