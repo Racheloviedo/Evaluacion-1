@@ -4,11 +4,15 @@ const router = express.Router();
 const { registrarIncidencia } = require('../controllers/incidenciasController'); 
 //Importando listarIncidencias
 const { listarIncidencias } = require('../controllers/incidenciasController');
+//Importando buscarPorId
+const { buscarPorId } = require('../controllers/incidenciasController');
 
 //Ruta POST para registrar incidencia
 router.post('/', registrarIncidencia);
 //Ruta GET para listar incidencias
 router.get('/', listarIncidencias);
+//Ruta GET para buscar una incidencia
+router.get('/:id', buscarPorId);
 
 module.exports = router;
 

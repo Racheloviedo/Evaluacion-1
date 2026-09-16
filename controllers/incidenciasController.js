@@ -50,6 +50,18 @@ const listarIncidencias = (req, res) => {
     return res.status(200).json(incidencias); //devuelve el arreglo con todos los registros almacenados
 };
 
+//Buscar incidencia por el ID
+const buscarPorId = (req, res) => {
+    const id = Number(req.params.id); //Debemos convertir de string a un numero
+
+    const incidencia = incidencias.find(inc => inc.id === id); //recorre el arreglo para encontrar coincidencia con el id
+    if(incidencia){
+        return res.status(200).json(incidencia);
+    } else {
+        return res.status(400).json({ mensaje:"Incidencia no encontrada"});
+    }
+};
+
 
 
 
