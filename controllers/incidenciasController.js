@@ -92,6 +92,21 @@ const cambiarEstado = (req, res) => {
     }
 };
 
+//Eliminar una incidencia 
+const eliminarIncidencia = (req, res) => {
+    const id = Number(req.params.id);
+    //findIndex() -> retorna el valor del primer elemento del array
+    const index = incidencias.findIndex(inc => inc.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({ mensaje: "Incidencia no encontrada"});
+    }
+
+    //splice() -> usado para agregar nuevos items al array
+    incidencias.splice(index, 1); //modifica el array borrando 1 elemento a partir del index
+    return res.status(200).json({ mensaje: "Incidencia eliminada correctamente" });
+};
+
 
 
 

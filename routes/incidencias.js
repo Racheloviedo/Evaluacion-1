@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-//Importando registrarIncidencia
+//Importando 
 const { registrarIncidencia } = require('../controllers/incidenciasController'); 
-//Importando listarIncidencias
 const { listarIncidencias } = require('../controllers/incidenciasController');
-//Importando buscarPorId
 const { buscarPorId } = require('../controllers/incidenciasController');
 const { cambiarEstado } = require('../controllers/incidenciasController');
+const { eliminarIncidencia } = require('../controllers/incidenciasController'); 
 
 //Ruta POST para registrar incidencia
 router.post('/', registrarIncidencia);
@@ -16,6 +15,8 @@ router.get('/', listarIncidencias);
 router.get('/:id', buscarPorId);
 //Ruta PUT para cambiar el estado
 router.put('/:id/estado', cambiarEstado);
+//Ruta DELETE para eliminar incidencia
+router.delete('/:id', eliminarIncidencia);
 
 module.exports = router;
 
