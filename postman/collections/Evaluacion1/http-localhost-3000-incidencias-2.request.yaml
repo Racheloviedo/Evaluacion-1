@@ -1,0 +1,19 @@
+$kind: http-request
+name: http://localhost:3000/incidencias
+description: ""
+url: http://localhost:3000/incidencias
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"empleado\": \"Juan Perez\",\r
+
+    \  \"area\": \"Contabilidad\",\r
+
+    \  \"descripcion\": \"No puedo imprimir\",\r
+
+    \  \"prioridad\": \"Alta\"\r
+
+    }"
+order: 4451057646688208

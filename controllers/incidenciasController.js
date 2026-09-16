@@ -2,17 +2,20 @@
 const { limpiarTexto, estaVacio } = require('../utils/helpers');
 
 //Se establece toda la logica de negocio
-const incidencias = [];
-//Variable autoincremental para controlar los IDs
-let siguienteId = 1;
 
-//Metodo registrar incidencia
+//Arreglo donde se almacenan las incidencias
+const incidencias = [];
+
+//Variable autoincremental para controlar los IDs
+let siguienteId = 1; //Los IDs comenzaran en 1
+
+//2. Metodo registrar incidencia
 const registrarIncidencia = (req, res) => {
-    const { empleado, area, descripcion, prioridad} = req.body;
+    const { empleado, area, descripcion, prioridad } = req.body;
 
     //Validar los campos obligatorios y que no esten vacios
     if(estaVacio(empleado) || estaVacio(area) || estaVacio(descripcion) || estaVacio(prioridad)){
-        return res.status(400).json({ error: 'Todos los campos son obligatorios y no se permiten cadenas vacias'});
+        return res.status(400).json({ error: "Todos los campos son obligatorios y no se permiten cadenas vacias" });
     }
 
     //Limpieza de espacios en blanco
@@ -24,33 +27,35 @@ const registrarIncidencia = (req, res) => {
     //Validar que prioridad sea: Alta, Media o Baja
     const prioridadLower = prioridadLimpia.toLowerCase() //pasar a minuscula para evitar errores del usuario
     if(prioridadLower != 'alta' && prioridadLower != 'media' && prioridadLower != 'baja'){
-        return res.status(400).json({ error: "Prioridad invalidad. Los valores permitidos son: 'Alta', 'Media' o 'Baja'"});
+        return res.status(400).json({ error: "Prioridad invalidad. Los valores permitidos son: 'Alta', 'Media' o 'Baja'" });
     }
 
-    //Normalizando texto --> en caso de que el usuario no lo mande en mayuscula
+    //Normalizando texto --> en caso de que el usuario no lo mande en otro formato
     let prioridadNormalizada = "Baja";
     if (prioridadLower === 'alta') prioridadNormalizada = "Alta";
     if(prioridadLower === 'media') prioridadNormalizada = "Media";
 
     //Crear objeto
     const nuevaIncidencia = {
+    id: siguienteId++, //Para que el ID crezca de 1 en adelante
     empleado: empleadoLimpio,
     area: areaLimpia,
     descripcion: descripcionLimpia,
     prioridad: prioridadNormalizada,
     estado: "Pendiente" //Estado por defecto
   };
+
     // usamos push para insertar en el arreglo
     incidencias.push(nuevaIncidencia);
-    res.status(201).json({mensaje: "Incidencia registrada correctamente" }); // 201 --> el recurso se creo y fue exitoso
+    return res.status(201).json({ mensaje: "Incidencia registrada correctamente" }); // 201 --> el recurso se creo y fue exitoso
 };
 
-//Listar incidencias
+//3. Listar incidencias
 const listarIncidencias = (req, res) => {
     return res.status(200).json(incidencias); //devuelve el arreglo con todos los registros almacenados
 };
 
-//Buscar incidencia por el ID
+//4. Buscar incidencia por el ID
 const buscarPorId = (req, res) => {
     const id = Number(req.params.id); //Debemos convertir de string a un numero
 
@@ -63,16 +68,16 @@ const buscarPorId = (req, res) => {
     }
 };
 
-//Cambiar el estado de incidencia
+//5. Cambiar el estado de incidencia
 const cambiarEstado = (req, res) => {
-    const id = Number(req.params.id);
-    const { estado } = req.body;
+    const id = Number(req.params.id); //obtener el ID
+    const { estado } = req.body; //obtener elestado
 
     if (estaVacio(estado)) {
         return res.status(400).json({ mensaje: "El campo 'estado' es obligatorio" });
     }
 
-    const incidencia = incidencias.find(inc => inc.id === id);
+    const incidencia = incidencias.find(inc => inc.id === id); //recorrer el arreglo para econtrar la incidencia
 
     if(!incidencia){
         return res.status(404).json({ mensaje: "Incidencia no encontrada" });
@@ -93,22 +98,24 @@ const cambiarEstado = (req, res) => {
     }
 };
 
-//Eliminar una incidencia 
+//6. Eliminar una incidencia 
 const eliminarIncidencia = (req, res) => {
     const id = Number(req.params.id);
-    //findIndex() -> retorna el valor del primer elemento del array
+
+    //findIndex() -> retorna la posicion(indice) de la incidencia
     const index = incidencias.findIndex(inc => inc.id === id);
 
-    if (index === -1) {
+    if (index === -1) { //Si no encuentra ningun elemento
         return res.status(404).json({ mensaje: "Incidencia no encontrada" });
     }
 
     //splice() -> usado para agregar nuevos items al array
     incidencias.splice(index, 1); //modifica el array borrando 1 elemento a partir del index
+    
     return res.status(200).json({ mensaje: "Incidencia eliminada correctamente" });
 };
 
-//Endpoint de estadisticas
+//7. Endpoint de estadisticas
 const obtenerEstadisticas = (req, res) => {
     const estadisticas = {
         totalIncidencias: incidencias.length, //length() -> cantidad de elementos en el array
@@ -122,7 +129,7 @@ const obtenerEstadisticas = (req, res) => {
     incidencias.forEach(inc => {
         switch(inc.estado){
             case "Pendiente":
-                estadisticas.pendientes++;
+                estadisticas.pendientes++; //aumenta la cantidad en pendientes partiendo del 1
                 break;
             case "En proceso":
                 estadisticas.enProceso++;
@@ -139,21 +146,23 @@ const obtenerEstadisticas = (req, res) => {
     return res.status(200).json(estadisticas);
 };
 
-//Clasificacion automatica 
+//8. Clasificacion automatica 
 const obtenerClasificacion = (req, res) => {
-    const id = Number(req.params.id);
-    const incidencia = incidencias.find(inc => inc.id === id);
+    const id = Number(req.params.id); //Obtener el ID
+
+    const incidencia = incidencias.find(inc => inc.id === id); //Encontrar incidencia a partir del ID
 
     if (!incidencia){
         return res.status(404).json({ mensaje: "Incidencia no encontrada" });
     }
 
+    //variable vacia
     let clasificacion = "";
 
     //Switch de clasificacion automatica
-    switch (incidencia.prioridad){
+    switch (incidencia.prioridad){ //Dependiendo de la prioridad se asigna una clasificacion
         case "Alta":
-            clasificacion = "Critica";
+            clasificacion = "Critica"; 
             break;
         case "Media":
             clasificacion = "Importante";

@@ -1,0 +1,6 @@
+$kind: http-request
+name: http://localhost:3000/incidencias/estadisticas
+description: ""
+url: http://localhost:3000/incidencias/estadisticas
+method: GET
+order: 4497166399937523

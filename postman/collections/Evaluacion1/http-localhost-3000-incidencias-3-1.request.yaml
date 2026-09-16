@@ -1,0 +1,6 @@
+$kind: http-request
+name: http://localhost:3000/incidencias/3
+description: ""
+url: http://localhost:3000/incidencias/3
+method: DELETE
+order: 4501910309001325

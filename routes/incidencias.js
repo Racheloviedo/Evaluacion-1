@@ -1,23 +1,30 @@
-const express = require('express');
-const router = express.Router();
-//Importando 
-const { registrarIncidencia } = require('../controllers/incidenciasController'); 
-const { listarIncidencias } = require('../controllers/incidenciasController');
-const { buscarPorId } = require('../controllers/incidenciasController');
-const { cambiarEstado } = require('../controllers/incidenciasController');
-const { eliminarIncidencia } = require('../controllers/incidenciasController'); 
-const { obtenerEstadisticas } = require('../controllers/incidenciasController');
-const { obtenerClasificacion } = require('../controllers/incidenciasController');
+//Definicion de las rutas/endpoints 
+
+const express = require('express'); // importando express para crear el router
+
+const router = express.Router(); //crea el router
+
+//Importando funciones de incidenciasController
+const { 
+    registrarIncidencia,
+    listarIncidencias,
+    buscarPorId,
+    cambiarEstado,
+    eliminarIncidencia,
+    obtenerEstadisticas,
+    obtenerClasificacion
+     } = require('../controllers/incidenciasController'); 
 
 //Definicion de endpoints
-router.post('/', registrarIncidencia); //Ruta POST para registrar incidencia
-router.get('/', listarIncidencias);
-router.get('/:id', buscarPorId);
-router.put('/:id/estado', cambiarEstado);
-router.delete('/:id', eliminarIncidencia);
-router.get('/estadisticas', obtenerEstadisticas);
-router.delete('/:id', eliminarIncidencia);
+router.get('/', listarIncidencias); //Obtener lista de incidencias
+router.get('/estadisticas', obtenerEstadisticas); //Obtener estadisticas
+router.get('/:id', buscarPorId); //Obtener incidencia especifica
+router.get('/:id/clasificacion', obtenerClasificacion); //Obtener clasificacion de incidencia
+router.post('/', registrarIncidencia); //Crear incidencia
+router.put('/:id/estado', cambiarEstado); //Actualizar estado de incidencia
+router.delete('/:id', eliminarIncidencia); //Eliminar incidencia
 
+//Exportando el router
 module.exports = router;
 
 

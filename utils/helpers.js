@@ -1,10 +1,9 @@
 //Para almacenar funciones reutilizables
 
 //Limpiar espacios en blanco al inicio y final de un texto.
-//trim() remueve los espacios en blanco de ambos lados de un string.
 const limpiarTexto = (texto) => {
     if (typeof texto === 'string'){ //verificamos con typeof que sea string
-        return texto.trim();
+        return texto.trim();//trim() remueve los espacios en blanco de ambos lados de un string.
     }
     return texto;
 };
@@ -14,14 +13,18 @@ const estaVacio = (valor) => {
     if (valor === undefined || valor === null){//verificar que sea indefinido o nulo
         return true;
     }
-    if (typeof valor === 'string' && valor.trim() === ''){ //verificar que valor sea un string y que sea cadena vacia
+    if (typeof valor === 'string' && valor.trim() === ''){ //verificar que valor sea un string y si queda "" tras usar trim()
         return true;
     }
     return false; //si no cumple nada de eso, no esta vacio 
 
 };
 
-
+//Exportando funciones
+module.exports = {
+    limpiarTexto,
+    estaVacio
+};
 
 
 

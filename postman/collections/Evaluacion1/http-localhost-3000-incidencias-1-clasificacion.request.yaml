@@ -1,0 +1,6 @@
+$kind: http-request
+name: http://localhost:3000/incidencias/1/clasificacion
+description: ""
+url: http://localhost:3000/incidencias/1/clasificacion
+method: GET
+order: 4496707244787018

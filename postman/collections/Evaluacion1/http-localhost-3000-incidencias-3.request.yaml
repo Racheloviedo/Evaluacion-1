@@ -1,0 +1,19 @@
+$kind: http-request
+name: http://localhost:3000/incidencias
+description: ""
+url: http://localhost:3000/incidencias
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"empleado\": \"Karla Villalta\",\r
+
+    \  \"area\": \"Contabilidad\",\r
+
+    \  \"descripcion\": \"Se acabo la tinta a color\",\r
+
+    \  \"prioridad\": \"Media\"\r
+
+    }"
+order: 4498495807442130

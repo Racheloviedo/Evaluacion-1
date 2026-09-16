@@ -1,0 +1,13 @@
+$kind: http-request
+name: http://localhost:3000/incidencias/1/estado
+description: ""
+url: http://localhost:3000/incidencias/1/estado
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"estado\": \"Resuelta\"\r
+
+    }"
+order: 4452742749382918
