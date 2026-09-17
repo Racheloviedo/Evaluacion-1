@@ -9,7 +9,7 @@ const incidenciaRoutes = require('./routes/incidencias');
 app.use(express.json()); //para interpretar el formato json
 
 //Registro de las rutas
-app.use('/incidencias', incidenciaRoutes); //todasls rutas inician con '/incidencias'
+app.use('/incidencias', incidenciaRoutes); //todas las rutas inician con '/incidencias'
 
 //Servidor escuchando en el puerto 3000
 app.listen(PORT, () => {
